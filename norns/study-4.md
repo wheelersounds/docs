@@ -97,17 +97,17 @@ let's take this decoupling a step further by implementing a complete step sequen
 engine.name = 'PolyPerc'
 
 steps = {}
-position = 1
-counter = metro.init()
-counter.time = 0.1
-counter.count = -1
-counter.callback = count
 
 function init()
   for i=1,16 do
     table.insert(steps,1)
   end
   grid_redraw()
+  position = 1
+  counter = metro.init()
+  counter.time = 0.1
+  counter.count = -1
+  counter.event = count
   counter:start()
 end
 
@@ -122,14 +122,14 @@ end
 
 function grid_redraw()
   g:all(0)
-  for i=1,16 do
+  for i=1,6 do
     g:led(i,steps[i],i==position and 15 or 4)
   end
   g:refresh()
 end
 
 function count()
-  position = (position % 16) + 1
+  position = (position % 6) + 1
   engine.hz(steps[position]*100)
   grid_redraw()
 end
